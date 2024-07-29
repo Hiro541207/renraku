@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('submissionForm');
     const postsDiv = document.getElementById('posts');
 
+    // ローカルストレージから投稿内容を読み込む
+    const savedPosts = JSON.parse(localStorage.getItem('posts')) || [];
+    savedPosts.forEach(post => {
+        addPostToDOM(post.name, post.message, post.timestamp);
+    });
+
     form.addEventListener('submit', (event) => {
         event.preventDefault();
 
@@ -9,6 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const message = document.getElementById('message').value;
         const timestamp = new Date().toLocaleString();
 
+        // 投稿内容を保存
+        const post = { name, message, timestamp };
+        savedPosts.push(post);
+        localStorage.setItem('posts', JSON.stringify(savedPosts));
+
+        addPostToDOM(name, message, timestamp);
+        form.reset();
+    });
+
+    function addPostToDOM(name, message, timestamp) {
         const postDiv = document.createElement('div');
         postDiv.classList.add('post');
 
@@ -33,8 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmationDiv.appendChild(confirmButton);
 
         postDiv.appendChild(confirmationDiv);
-        postsDiv.insertBefore(postDiv, postsDiv.firstChild);
-
-        form.reset();
-    });
+        postsDiv.appendChild(postDiv);
+    }
 });
+
