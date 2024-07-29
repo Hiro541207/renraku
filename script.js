@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('submissionForm');
     const postsDiv = document.getElementById('posts');
+    const clearPostsButton = document.getElementById('clearPostsButton');
 
     // ローカルストレージから投稿内容を読み込む
     const savedPosts = JSON.parse(localStorage.getItem('posts')) || [];
@@ -25,6 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
         form.reset();
     });
 
+    clearPostsButton.addEventListener('click', () => {
+        const password = prompt('パスワードを入力してください:');
+        if (password === 'kensa') { // 管理者用のパスワードを設定
+            localStorage.removeItem('posts');
+            postsDiv.innerHTML = '';
+        } else {
+            alert('パスワードが間違っています。');
+        }
+    });
+
     function addPostToDOM(post) {
         const postDiv = document.createElement('div');
         postDiv.classList.add('post');
@@ -43,18 +54,19 @@ document.addEventListener('DOMContentLoaded', () => {
         confirmationDiv.classList.add('confirmation');
         
         const confirmButton = document.createElement('button');
-        confirmButton.textContent = '確認しました';
-        confirmButton.disabled = post.confirmed;
+        confirmButton.textContent = post.confirmed ? '確認済み' : '確認しました';
+        if (post.confirmed) {
+            confirmationDiv.appendChild(document.createElement('span')).textContent = '確認済み';
+        } else {
+            confirmationDiv.appendChild(confirmButton);
+        }
+        
         confirmButton.addEventListener('click', () => {
             post.confirmed = true;
             localStorage.setItem('posts', JSON.stringify(savedPosts));
-            confirmationDiv.innerHTML = '<span>確認済み</span>';
+            confirmButton.remove();
+            confirmationDiv.appendChild(document.createElement('span')).textContent = '確認済み';
         });
-        confirmationDiv.appendChild(confirmButton);
-
-        if (post.confirmed) {
-            confirmationDiv.innerHTML = '<span>確認済み</span>';
-        }
 
         postDiv.appendChild(confirmationDiv);
         postsDiv.appendChild(postDiv);
