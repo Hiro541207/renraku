@@ -3,11 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const postsDiv = document.getElementById('posts');
     const clearPostsButton = document.getElementById('clearPostsButton');
 
-    // ローカルストレージから投稿内容を読み込む
-    const savedPosts = JSON.parse(localStorage.getItem('posts')) || [];
-    savedPosts.forEach(post => {
-        addPostToDOM(post);
-    });
+    // サーバーから投稿内容を読み込む
+    fetch('http://localhost:3000/api/posts')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(post => {
+                addPostToDOM(post);
+            });
+        });
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -17,20 +20,39 @@ document.addEventListener('DOMContentLoaded', () => {
         const timestamp = new Date().toLocaleString();
         const confirmed = false;
 
-        // 投稿内容を保存
-        const post = { name, message, timestamp, confirmed };
-        savedPosts.push(post);
-        localStorage.setItem('posts', JSON.stringify(savedPosts));
+        // 投稿内容をサーバーに送信
+        fetch('http://localhost:3000/api/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, message, timestamp, confirmed })
+        })
+        .then(response => response.json())
+        .then(post => {
+            addPostToDOM(post);
+        });
 
-        addPostToDOM(post);
         form.reset();
     });
 
     clearPostsButton.addEventListener('click', () => {
         const password = prompt('パスワードを入力してください:');
-        if (password === 'kensa') { // 管理者用のパスワードを設定
-            localStorage.removeItem('posts');
-            postsDiv.innerHTML = '';
+        if (password === 'kensa') {
+            fetch('http://localhost:3000/api/posts', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ password })
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    postsDiv.innerHTML = '';
+                } else {
+                    alert('パスワードが間違っています。');
+                }
+            });
         } else {
             alert('パスワードが間違っています。');
         }
@@ -63,7 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         confirmButton.addEventListener('click', () => {
             post.confirmed = true;
-            localStorage.setItem('posts', JSON.stringify(savedPosts));
+            fetch('http://localhost:3000/api/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(post)
+            });
             confirmButton.remove();
             confirmationDiv.appendChild(document.createElement('span')).textContent = '確認済み';
         });
