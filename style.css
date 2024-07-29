@@ -1,0 +1,193 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 1rem 0;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav img.logo {
+    width: 50px;
+    height: auto;
+    margin-right: 15px;
+}
+
+.hero {
+    text-align: center;
+    padding: 2rem 0;
+    background-color: #e9ecef;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+}
+
+.content {
+    padding: 2rem 10%;
+}
+
+.content h2 {
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+.content p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+table, th, td {
+    border: 1px solid #007bff;
+}
+
+th, td {
+    padding: 0.5rem;
+    text-align: left;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+.submission {
+    padding: 2rem 10%;
+    background-color: #e9ecef;
+}
+
+.submission h2 {
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+.submission form {
+    display: flex;
+    flex-direction: column;
+}
+
+.submission label {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.submission input, .submission textarea {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.submission button {
+    width: 100px;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+.submission button:hover {
+    background-color: #0056b3;
+}
+
+#posts {
+    padding: 2rem 10%;
+}
+
+.post {
+    background-color: #add8e6; /* 水色 */
+    padding: 1rem;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.post-header {
+    font-size: 1.2rem;
+    color: #007bff;
+    margin-bottom: 0.5rem;
+}
+
+.post-message {
+    font-size: 1rem;
+    color: #000;
+}
+
+.confirmation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+.confirmation button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.confirmation button:hover {
+    background-color: #218838;
+}
+
+.confirmation span {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* メディアクエリ */
+@media (max-width: 600px) {
+    .content, .submission, #posts {
+        padding: 1rem 5%;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .content h2, .submission h2 {
+        font-size: 1.2rem;
+    }
+
+    .post-header, .post-message {
+        font-size: 1rem;
+    }
+
+    .confirmation button {
+        padding: 0.3rem;
+        font-size: 0.9rem;
+    }
+}
